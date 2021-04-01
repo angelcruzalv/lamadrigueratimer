@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
           'mapas': (_) => TimersPage(),
           'mapa': (_) => SettingsPage(),
         },
-        theme:
-            ThemeData(primaryColor: Colors.lightGreen, accentColor: Colors.red),
+        theme: ThemeData(
+            primaryColor: Colors.lightGreen, accentColor: Colors.lightGreen),
       ),
     );
   }

@@ -6,6 +6,12 @@ class TimersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TimerTiles();
+    return ListView.builder(
+      itemCount: 12,
+      itemBuilder: (_, i) => ListTile(
+        leading: Text((i + 1).toString()),
+        title: TimerTiles(),
+      ),
+    );
   }
 }
