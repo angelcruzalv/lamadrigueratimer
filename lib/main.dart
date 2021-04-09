@@ -15,7 +15,6 @@ class MyApp extends StatelessWidget {
       providers: [ChangeNotifierProvider(create: (_) => new UiProvider())],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'La madriguera Timer',
         initialRoute: 'home',
         routes: {
           'home': (BuildContext context) => HomePage(),
@@ -23,7 +22,10 @@ class MyApp extends StatelessWidget {
           'mapa': (_) => SettingsPage(),
         },
         theme: ThemeData(
-            primaryColor: Colors.lightGreen, accentColor: Colors.lightGreen),
+            primaryColor: Color(0xFF152423),
+            scaffoldBackgroundColor: Color(0xFF282D0C),
+            accentColor: Color(0xFF98D811),
+            textTheme: TextTheme(body1: TextStyle(color: Colors.white))),
       ),
     );
   }

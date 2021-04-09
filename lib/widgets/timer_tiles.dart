@@ -19,56 +19,62 @@ class _TimerTilesState extends State<TimerTiles> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return Container(
-      height: 100,
+      margin: EdgeInsets.all(15),
+      padding: EdgeInsets.all(5),
+      height: 120,
       decoration: BoxDecoration(
-          gradient: LinearGradient(
-              colors: [Colors.green, Colors.blue],
-              begin: Alignment.centerLeft,
-              end: Alignment.centerRight),
-          borderRadius: BorderRadius.all(Radius.circular(24))),
-      child: Column(
+          color: Color(0xFF0A0E21),
+
+          // gradient: LinearGradient(
+          //     colors: [Colors.green, Colors.blue],
+          //     begin: Alignment.centerLeft,
+          //     end: Alignment.centerRight),
+          borderRadius: BorderRadius.all(Radius.circular(15))),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Row(
+          Column(
             children: [
               StreamBuilder<int>(
                 stream: _stopWatchTimer.rawTime,
                 builder: (context, snapshot) {
                   final value = snapshot.data;
-                  final displayTime =
-                      StopWatchTimer.getDisplayTime(value, hours: _isHours);
+                  final displayTime = StopWatchTimer.getDisplayTime(value,
+                      hours: _isHours, milliSecond: false);
                   return Text(
                     displayTime,
                     style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white),
+                        fontSize: 35,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xFF98D811)),
                   );
                 },
               ),
+              Text("Esta es una nota de prueba\n para mostrar vista previa..."),
+            ],
+            // onTap: () {
+            //   _stopWatchTimer.onExecute.add(StopWatchExecute.start);
+            // },
+          ),
+          Column(
+            children: [
               ElevatedButton(
                   child: Icon(Icons.play_arrow),
-                  style: ButtonStyle(),
-                  onPressed: () {
-                    _stopWatchTimer.onExecute.add(StopWatchExecute.start);
-                  }),
-              ElevatedButton(
-                  child: Icon(Icons.stop),
-                  style: ElevatedButton.styleFrom(primary: Colors.red),
+                  style: ElevatedButton.styleFrom(primary: Colors.green),
                   onPressed: () {
                     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
                   }),
               ElevatedButton(
                   child: Icon(Icons.delete_forever),
-                  style: ElevatedButton.styleFrom(primary: Colors.black),
+                  style: ElevatedButton.styleFrom(primary: Color(0xFF59355F)),
                   onPressed: () {
-                    _stopWatchTimer.onExecute.add(StopWatchExecute.reset);
+                    _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
                   }),
             ],
-            // onTap: () {
-            //   _stopWatchTimer.onExecute.add(StopWatchExecute.start);
-            // },
           ),
         ],
       ),

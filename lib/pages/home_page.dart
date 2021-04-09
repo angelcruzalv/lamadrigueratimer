@@ -10,15 +10,22 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'La Madriguera Timer',
-          style: TextStyle(color: Colors.white),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Image.asset(
+              'assets/images/logo.png',
+              fit: BoxFit.cover,
+              height: 100,
+            ),
+            Container(padding: const EdgeInsets.all(1.0), child: Text('Timer'))
+          ],
         ),
       ),
       body: _HomePageBody(),
       bottomNavigationBar: CustomNavBar(),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        child: Icon(Icons.stop_outlined),
         onPressed: () {},
       ),
     );
