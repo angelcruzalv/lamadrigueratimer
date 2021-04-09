@@ -7,20 +7,7 @@ class TimersPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      children: [
-        TimerTiles(),
-        TimerTiles(),
-        TimerTiles(),
-        TimerTiles(),
-        TimerTiles(),
-        TimerTiles(),
-        TimerTiles(),
-        TimerTiles(),
-        TimerTiles(),
-        TimerTiles(),
-        TimerTiles(),
-        TimerTiles(),
-      ],
+      children: [],
     );
   }
 }
