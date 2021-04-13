@@ -24,10 +24,6 @@ class HomePage extends StatelessWidget {
       ),
       body: _HomePageBody(),
       bottomNavigationBar: CustomNavBar(),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.stop_outlined),
-        onPressed: () {},
-      ),
     );
   }
 }

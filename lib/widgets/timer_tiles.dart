@@ -69,7 +69,7 @@ class _TimerTilesState extends State<TimerTiles> {
                     _stopWatchTimer.onExecute.add(StopWatchExecute.start);
                   }),
               ElevatedButton(
-                  child: Icon(Icons.delete_forever),
+                  child: Icon(Icons.stop),
                   style: ElevatedButton.styleFrom(primary: Color(0xFF59355F)),
                   onPressed: () {
                     _stopWatchTimer.onExecute.add(StopWatchExecute.stop);

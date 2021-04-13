@@ -21,11 +21,12 @@ class MyApp extends StatelessWidget {
           'mapas': (_) => TimersPage(),
           'mapa': (_) => SettingsPage(),
         },
-        theme: ThemeData(
-          primaryColor: Color(0xFF152423),
-          scaffoldBackgroundColor: Color(0xFF282D0C),
-          accentColor: Color(0xFF98D811),
-        ),
+        theme: ThemeData.dark(),
+        // theme: ThemeData(
+        //     primaryColor: Color(0xFF000000),
+        //     scaffoldBackgroundColor: Color(0xFF363636),
+        //     accentColor: Color(0xFF98D811),
+        //     textTheme: TextTheme(body1: TextStyle(color: Color(0xFF6F7959)))),
       ),
     );
   }
