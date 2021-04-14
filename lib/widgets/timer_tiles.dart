@@ -1,172 +1,112 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:timer_builder/timer_builder.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class TimerTiles extends StatefulWidget {
+  final int index;
+  const TimerTiles({this.index});
   @override
   _TimerTilesState createState() => _TimerTilesState();
 }
 
 class _TimerTilesState extends State<TimerTiles> {
-  final StopWatchTimer _stopWatchTimer = new StopWatchTimer();
-  final _isHours = true;
+  bool flag = true;
+  Stream<int> timerStream;
+  StreamSubscription<int> timerSubscription;
+  String hoursStr = '00';
+  String minutesStr = '00';
+  String secondsStr = '00';
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    _stopWatchTimer.dispose();
+  Stream<int> stopWatchStream() {
+    StreamController<int> streamController;
+    Timer timer;
+    Duration timerInterval = Duration(seconds: 1);
+    int counter = 0;
+
+    void stopTimer() {
+      if (timer != null) {
+        timer.cancel();
+        timer = null;
+        counter = 0;
+        streamController.close();
+      }
+    }
+
+    void tick(_) {
+      counter++;
+      streamController.add(counter);
+    }
+
+    void startTimer() {
+      timer = Timer.periodic(timerInterval, tick);
+    }
+
+    streamController = StreamController<int>(
+      onListen: startTimer,
+      onCancel: stopTimer,
+      onResume: startTimer,
+      onPause: stopTimer,
+    );
+
+    return streamController.stream;
   }
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
-    return Container(
-      margin: EdgeInsets.all(15),
-      padding: EdgeInsets.all(5),
-      height: 120,
-      decoration: BoxDecoration(
-          color: Color(0xFF0A0E21),
-
-          // gradient: LinearGradient(
-          //     colors: [Colors.green, Colors.blue],
-          //     begin: Alignment.centerLeft,
-          //     end: Alignment.centerRight),
-          borderRadius: BorderRadius.all(Radius.circular(15))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Column(
-            children: [
-              StreamBuilder<int>(
-                stream: _stopWatchTimer.rawTime,
-                builder: (context, snapshot) {
-                  final value = snapshot.data;
-                  final displayTime = StopWatchTimer.getDisplayTime(value,
-                      hours: _isHours, milliSecond: false);
-                  return Text(
-                    displayTime,
-                    style: TextStyle(
-                        fontSize: 35,
-                        fontWeight: FontWeight.normal,
-                        color: Color(0xFF98D811)),
-                  );
-                },
-              ),
-              Text("Esta es una nota de prueba\n para mostrar vista previa..."),
-            ],
-            // onTap: () {
-            //   _stopWatchTimer.onExecute.add(StopWatchExecute.start);
-            // },
-          ),
-          Column(
-            children: [
-              ElevatedButton(
-                  child: Icon(Icons.play_arrow),
-                  style: ElevatedButton.styleFrom(primary: Colors.green),
-                  onPressed: () {
-                    _stopWatchTimer.onExecute.add(StopWatchExecute.start);
-                  }),
-              ElevatedButton(
-                  child: Icon(Icons.stop),
-                  style: ElevatedButton.styleFrom(primary: Color(0xFF59355F)),
-                  onPressed: () {
-                    _stopWatchTimer.onExecute.add(StopWatchExecute.stop);
-                  }),
-            ],
-          ),
-        ],
-      ),
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        Text((widget.index + 1).toString()),
+        Text(
+          "$hoursStr:$minutesStr:$secondsStr",
+          style: TextStyle(color: Color(0xFF32CD32), fontSize: 30),
+        ),
+        IconButton(
+            icon: Icon(
+              Icons.play_arrow,
+              color: Color(0xFF3BFF3B),
+              size: 40,
+            ),
+            onPressed: () {
+              timerStream = stopWatchStream();
+              timerSubscription = timerStream.listen((int newTick) {
+                setState(() {
+                  hoursStr = ((newTick / (60 * 60)) % 60)
+                      .floor()
+                      .toString()
+                      .padLeft(2, '0');
+                  minutesStr =
+                      ((newTick / 60) % 60).floor().toString().padLeft(2, '0');
+                  secondsStr =
+                      (newTick % 60).floor().toString().padLeft(2, '0');
+                });
+              });
+            }),
+        IconButton(
+            icon: Icon(
+              Icons.stop,
+              color: Color(0xFF99004D),
+              size: 40,
+            ),
+            onPressed: () {
+              timerSubscription.cancel();
+            }),
+        IconButton(
+            icon: Icon(
+              Icons.restore,
+              color: Color(0xFF0790E6),
+            ),
+            onPressed: () {
+              timerSubscription.cancel();
+              timerStream = null;
+              setState(() {
+                hoursStr = '00';
+                minutesStr = '00';
+                secondsStr = '00';
+              });
+            })
+      ],
     );
   }
-
-  //   DateTime alert = DateTime.now().add(Duration(seconds: 10));
-  //   return Container(
-  //     child: TimerBuilder.scheduled([alert], builder: (context) {
-  //       var now = DateTime.now();
-  //       var reached = now.compareTo(alert) >= 0;
-  //       return Column(
-  //         children: <Widget>[
-  //           Icon(
-  //             reached ? Icons.alarm_on : Icons.alarm,
-  //             color: reached ? Colors.red : Colors.green,
-  //             size: 48,
-  //           ),
-  //           !reached
-  //               ? TimerBuilder.periodic(Duration(seconds: 1),
-  //                   alignment: Duration.zero, builder: (context) {
-  //                   // This function will be called every second until the alert time
-  //                   var now = DateTime.now();
-  //                   var remaining = alert.difference(now);
-  //                   return Text(
-  //                     formatDuration(remaining),
-  //                   );
-  //                 })
-  //               : Text(
-  //                   "Alert",
-  //                 ),
-  //           ElevatedButton(
-  //             child: Text("Reset"),
-  //             onPressed: () {
-  //               setState(() {
-  //                 alert = DateTime.now().add(Duration(seconds: 10));
-  //               });
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     }),
-  //   );
-  // }
-
-  // Widget _tiles() {
-  //   DateTime alert = DateTime.now().add(Duration(seconds: 10));
-  //   return Container(
-  //     child: TimerBuilder.scheduled([alert], builder: (context) {
-  //       var now = DateTime.now();
-  //       var reached = now.compareTo(alert) >= 0;
-  //       return Column(
-  //         children: <Widget>[
-  //           Icon(
-  //             reached ? Icons.alarm_on : Icons.alarm,
-  //             color: reached ? Colors.red : Colors.green,
-  //             size: 48,
-  //           ),
-  //           !reached
-  //               ? TimerBuilder.periodic(Duration(seconds: 1),
-  //                   alignment: Duration.zero, builder: (context) {
-  //                   // This function will be called every second until the alert time
-  //                   var now = DateTime.now();
-  //                   var remaining = alert.difference(now);
-  //                   return Text(
-  //                     formatDuration(remaining),
-  //                   );
-  //                 })
-  //               : Text(
-  //                   "Alert",
-  //                 ),
-  //           ElevatedButton(
-  //             child: Text("Reset"),
-  //             onPressed: () {
-  //               setState(() {
-  //                 alert = DateTime.now().add(Duration(seconds: 10));
-  //               });
-  //             },
-  //           ),
-  //         ],
-  //       );
-  //     }),
-  //   );
-  // }
-}
-
-String formatDuration(Duration d) {
-  String f(int n) {
-    return n.toString().padLeft(2, '0');
-  }
-
-  // We want to round up the remaining time to the nearest second
-  d += Duration(microseconds: 999999);
-  return "${f(d.inMinutes)}:${f(d.inSeconds % 60)}";
 }

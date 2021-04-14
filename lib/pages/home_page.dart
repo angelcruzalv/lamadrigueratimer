@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Image.asset(
-              'assets/images/logo.png',
+              'assets/images/logotipo.png',
               fit: BoxFit.cover,
               height: 100,
             ),
