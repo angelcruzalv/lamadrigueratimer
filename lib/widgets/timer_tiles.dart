@@ -1,11 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class TimerTiles extends StatefulWidget {
   final int index;
-  const TimerTiles({this.index});
+  const TimerTiles({this.index}); //parameter from the times_page
   @override
   _TimerTilesState createState() => _TimerTilesState();
 }
@@ -57,7 +56,8 @@ class _TimerTilesState extends State<TimerTiles> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Text((widget.index + 1).toString()),
+        Text((widget.index)
+            .toString()), //pass index parameter from the stateful widget
         Text(
           "$hoursStr:$minutesStr:$secondsStr",
           style: TextStyle(color: Color(0xFF32CD32), fontSize: 30),

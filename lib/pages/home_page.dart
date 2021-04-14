@@ -18,7 +18,9 @@ class HomePage extends StatelessWidget {
               fit: BoxFit.cover,
               height: 100,
             ),
-            Container(padding: const EdgeInsets.all(1.0), child: Text('Timer'))
+            Container(
+                padding: const EdgeInsets.all(1.0),
+                child: Text('Control de tiempos'))
           ],
         ),
       ),

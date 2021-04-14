@@ -11,17 +11,79 @@ class TimersPage extends StatefulWidget {
 class _TimersPageState extends State<TimersPage> {
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        physics: BouncingScrollPhysics(),
-        itemCount: 12,
-        itemBuilder: (BuildContext context, int _index) {
-          return Container(
-            color: (_index % 2 == 0) ? Color(0xFF0A0E21) : Color(0xFF363636),
-            height: 120,
-            child: TimerTiles(
-              index: _index,
-            ),
-          );
-        });
+    return Stack(
+      children: [
+        SingleChildScrollView(
+            physics: BouncingScrollPhysics(),
+            child: Column(
+              children: [
+                _container(
+                  index: 1,
+                ),
+                _container(
+                  index: 2,
+                ),
+                _container(
+                  index: 3,
+                ),
+                _container(
+                  index: 4,
+                ),
+                _container(
+                  index: 5,
+                ),
+                _container(
+                  index: 6,
+                ),
+                _container(
+                  index: 7,
+                ),
+                _container(
+                  index: 8,
+                ),
+                _container(
+                  index: 9,
+                ),
+                _container(
+                  index: 10,
+                ),
+                _container(
+                  index: 11,
+                ),
+                _container(
+                  index: 12,
+                ),
+              ],
+            ))
+      ],
+    );
+    // return ListView.builder(
+    //     physics: BouncingScrollPhysics(),
+    //     itemCount: 12,
+    //     itemBuilder: (BuildContext context, int _index)  {
+    //       return Container(
+    //         color: (_index % 2 == 0) ? Color(0xFF0A0E21) : Color(0xFF363636),
+    //         height: 120,
+    //         child: TimerTiles (
+    //           index: _index,
+    //         ),
+    //       );
+    //     });
+  }
+}
+
+class _container extends StatelessWidget {
+  final index;
+  const _container({this.index});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 120,
+      color: Color(0xFF000000),
+      child: TimerTiles(
+        index: index,
+      ),
+    );
   }
 }
