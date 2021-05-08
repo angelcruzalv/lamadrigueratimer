@@ -9,6 +9,7 @@ class TimersPage extends StatefulWidget {
 }
 
 class _TimersPageState extends State<TimersPage> {
+  final List<int> _myItems = List<int>.generate(12, (index) => index);
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -80,7 +81,7 @@ class _container extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 120,
-      color: Color(0xFF000000),
+      color: (index % 2 == 0) ? Color(0xFF0A0E21) : Color(0xFF363636),
       child: TimerTiles(
         index: index,
       ),
