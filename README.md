@@ -1,6 +1,6 @@
-# timer
+# Multi-TImer App developed on FLutter SDK
 
-A new Flutter project.
+It will contain 12 stopwatches in a ViewList
 
 ## Getting Started
 
