@@ -53,60 +53,76 @@ class _TimerTilesState extends State<TimerTiles> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Text((widget.index)
-            .toString()), //pass index parameter from the stateful widget
-        Text(
-          "$hoursStr:$minutesStr:$secondsStr",
-          style: TextStyle(color: Color(0xFF32CD32), fontSize: 30),
-        ),
-        IconButton(
-            icon: Icon(
-              Icons.play_arrow,
-              color: Color(0xFF3BFF3B),
-              size: 40,
+    double _width = MediaQuery.of(context).size.width * 0.5;
+    return   Container(
+     // padding: EdgeInsets.all(16),
+      child: Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text((widget.index)
+                .toString(), style: TextStyle(fontSize: 35),), //pass index parameter from the stateful widget
+            Container(
+              width: _width,
+              child: Column(
+                children: [
+                  Text(
+                    "$hoursStr:$minutesStr:$secondsStr",
+                    style: TextStyle(color: Color(0xFF32CD32), fontSize: 30),
+                  ),
+                  Text(
+                      'Esta es una nota de prueba para guardar en una base de datos la cual puede ser editada de manera individual en cada timer'),
+                ],
+              ),
             ),
-            onPressed: () {
-              timerStream = stopWatchStream();
-              timerSubscription = timerStream.listen((int newTick) {
-                setState(() {
-                  hoursStr = ((newTick / (60 * 60)) % 60)
-                      .floor()
-                      .toString()
-                      .padLeft(2, '0');
-                  minutesStr =
-                      ((newTick / 60) % 60).floor().toString().padLeft(2, '0');
-                  secondsStr =
-                      (newTick % 60).floor().toString().padLeft(2, '0');
-                });
-              });
-            }),
-        IconButton(
-            icon: Icon(
-              Icons.stop,
-              color: Color(0xFF99004D),
-              size: 40,
-            ),
-            onPressed: () {
-              timerSubscription.cancel();
-            }),
-        IconButton(
-            icon: Icon(
-              Icons.restore,
-              color: Color(0xFF0790E6),
-            ),
-            onPressed: () {
-              timerSubscription.cancel();
-              timerStream = null;
-              setState(() {
-                hoursStr = '00';
-                minutesStr = '00';
-                secondsStr = '00';
-              });
-            })
-      ],
+            IconButton(
+                icon: Icon(
+                  Icons.play_arrow,
+                  color: Color(0xFF3BFF3B),
+                  size: 40,
+                ),
+                onPressed: () {
+                  timerStream = stopWatchStream();
+                  timerSubscription = timerStream.listen((int newTick) {
+                    setState(() {
+                      hoursStr = ((newTick / (60 * 60)) % 60)
+                          .floor()
+                          .toString()
+                          .padLeft(2, '0');
+                      minutesStr = ((newTick / 60) % 60)
+                          .floor()
+                          .toString()
+                          .padLeft(2, '0');
+                      secondsStr =
+                          (newTick % 60).floor().toString().padLeft(2, '0');
+                    });
+                  });
+                }),
+            IconButton(
+                icon: Icon(
+                  Icons.stop,
+                  color: Color(0xFF99004D),
+                  size: 40,
+                ),
+                onPressed: () {
+                  timerSubscription.cancel();
+                }),
+            IconButton(
+                icon: Icon(
+                  Icons.restore,
+                  color: Color(0xFF0790E6),
+                ),
+                onPressed: () {
+                  timerSubscription.cancel();
+                  timerStream = null;
+                  setState(() {
+                    hoursStr = '00';
+                    minutesStr = '00';
+                    secondsStr = '00';
+                  });
+                })
+          ],
+         
+      ),
     );
   }
 }
